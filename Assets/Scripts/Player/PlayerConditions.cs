@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+public interface IDamagable
+{
+    void TakePhysicalDamage(int damageAmount);
+}
+
+
 [System.Serializable]
 public class Condition
 {
@@ -32,7 +38,7 @@ public class Condition
 
 }
 
-public class PlayerConditions : MonoBehaviour
+public class PlayerConditions : MonoBehaviour, IDamagable
 {
     public Condition health;
     public Condition hunger;
@@ -93,5 +99,11 @@ public class PlayerConditions : MonoBehaviour
     public void Die()
     {
         Debug.Log("Á×À½");
+    }
+
+    public void TakePhysicalDamage(int damageAmount)
+    {
+        health.Substract(damageAmount);
+        onTakeDamage?.Invoke();
     }
 }
